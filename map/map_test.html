@@ -33,149 +33,156 @@
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
         
         <script type="text/javascript">
-            //Google maps API initialisation
-            var element = document.getElementById("map");
- 
-            var map = new google.maps.Map(element, {
-                center: new google.maps.LatLng(-33.91722, 151.23064),
-                zoom: 16,
-                mapTypeId: "OSM",
-                mapTypeControl: false,
-                streetViewControl: false
+          function setMapCenter(map, pos) {
+            map.center.lat = pos.coords.latitude;
+            map.center.lng = pos.coords.longitude;
+          }
+
+          //Google maps API initialisation
+          var element = document.getElementById("map");
+
+          var map = new google.maps.Map(element, {
+              center: new google.maps.LatLng(-33.91722, 151.23064),
+              zoom: 16,
+              mapTypeId: "OSM",
+              mapTypeControl: false,
+              streetViewControl: false
+          });
+
+          navigator.geolocation.getCurrentPosition(function(pos){setMapCenter(map,pos)});
+
+          var iconBase =
+          'https://developers.google.com/maps/documentation/javascript/examples/full/images/';
+
+          var icons = {
+            parking: {
+              icon: iconBase + 'parking_lot_maps.png'
+            },
+            library: {
+              icon: iconBase + 'library_maps.png'
+            },
+            info: {
+              icon: iconBase + 'info-i_maps.png'
+            }
+          };
+
+          var features = [
+            {
+              position: new google.maps.LatLng(-33.91721, 151.22630),
+              type: 'info'
+            }, {
+              position: new google.maps.LatLng(-33.91539, 151.22820),
+              type: 'info'
+            }, {
+              position: new google.maps.LatLng(-33.91747, 151.22912),
+              type: 'info'
+            }, {
+              position: new google.maps.LatLng(-33.91910, 151.22907),
+              type: 'info'
+            }, {
+              position: new google.maps.LatLng(-33.91725, 151.23011),
+              type: 'info'
+            }, {
+              position: new google.maps.LatLng(-33.91872, 151.23089),
+              type: 'info'
+            }, {
+              position: new google.maps.LatLng(-33.91784, 151.23094),
+              type: 'info'
+            }, {
+              position: new google.maps.LatLng(-33.91682, 151.23149),
+              type: 'info'
+            }, {
+              position: new google.maps.LatLng(-33.91790, 151.23463),
+              type: 'info'
+            }, {
+              position: new google.maps.LatLng(-33.91666, 151.23468),
+              type: 'info'
+            }, {
+              position: new google.maps.LatLng(-33.916988, 151.233640),
+              type: 'info'
+            }, {
+              position: new google.maps.LatLng(-33.91662347903106, 151.22879464019775),
+              type: 'parking'
+            }, {
+              position: new google.maps.LatLng(-33.916365282092855, 151.22937399734496),
+              type: 'parking'
+            }, {
+              position: new google.maps.LatLng(-33.91665018901448, 151.2282474695587),
+              type: 'parking'
+            }, {
+              position: new google.maps.LatLng(-33.919543720969806, 151.23112279762267),
+              type: 'parking'
+            }, {
+              position: new google.maps.LatLng(-33.91608037421864, 151.23288232673644),
+              type: 'parking'
+            }, {
+              position: new google.maps.LatLng(-33.91851096391805, 151.2344058214569),
+              type: 'parking'
+            }, {
+              position: new google.maps.LatLng(-33.91818154739766, 151.2346203981781),
+              type: 'parking'
+            }, {
+              position: new google.maps.LatLng(-33.91727341958453, 151.23348314155578),
+              type: 'library'
+            }
+          ];
+
+          // Create markers.
+          for (var i = 0; i < features.length; i++) {
+            var contentString = '<div id="content">'+
+                '<div id="siteNotice">'+
+                '</div>'+
+                '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
+                '<div id="bodyContent">'+
+                '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+                'sandstone rock formation in the southern part of the '+
+                'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
+                'south west of the nearest large town, Alice Springs; 450&#160;km '+
+                '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
+                'features of the Uluru - Kata Tjuta National Park. Uluru is '+
+                'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
+                'Aboriginal people of the area. It has many springs, waterholes, '+
+                'rock caves and ancient paintings. Uluru is listed as a World '+
+                'Heritage Site.</p>'+
+                '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+                'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+                '(last visited June 22, 2009).</p>'+
+                '</div>'+
+                '</div>';
+
+            var infowindow = new google.maps.InfoWindow({
+              content: contentString
             });
- 
-            var iconBase =
-            'https://developers.google.com/maps/documentation/javascript/examples/full/images/';
 
-        var icons = {
-          parking: {
-            icon: iconBase + 'parking_lot_maps.png'
-          },
-          library: {
-            icon: iconBase + 'library_maps.png'
-          },
-          info: {
-            icon: iconBase + 'info-i_maps.png'
-          }
-        };
+            var marker = new google.maps.Marker({
+              position: features[i].position,
+  //            icon: icons[features[i].type].icon,
+              map: map,
+              title: "A company",
+              label: "A"
+            });
+            marker.addListener('click', function() {
+              infowindow.open(map, marker);
+            });
+          };
+          //Define OSM map type pointing at the OpenStreetMap tile server
+          map.mapTypes.set("OSM", new google.maps.ImageMapType({
+              getTileUrl: function(coord, zoom) {
+                  // "Wrap" x (longitude) at 180th meridian properly
+                  // NB: Don't touch coord.x: because coord param is by reference, and changing its x property breaks something in Google's lib
+                  var tilesPerGlobe = 1 << zoom;
+                  var x = coord.x % tilesPerGlobe;
+                  if (x < 0) {
+                      x = tilesPerGlobe+x;
+                  }
+                  // Wrap y (latitude) in a like manner if you want to enable vertical infinite scrolling
 
-        var features = [
-          {
-            position: new google.maps.LatLng(-33.91721, 151.22630),
-            type: 'info'
-          }, {
-            position: new google.maps.LatLng(-33.91539, 151.22820),
-            type: 'info'
-          }, {
-            position: new google.maps.LatLng(-33.91747, 151.22912),
-            type: 'info'
-          }, {
-            position: new google.maps.LatLng(-33.91910, 151.22907),
-            type: 'info'
-          }, {
-            position: new google.maps.LatLng(-33.91725, 151.23011),
-            type: 'info'
-          }, {
-            position: new google.maps.LatLng(-33.91872, 151.23089),
-            type: 'info'
-          }, {
-            position: new google.maps.LatLng(-33.91784, 151.23094),
-            type: 'info'
-          }, {
-            position: new google.maps.LatLng(-33.91682, 151.23149),
-            type: 'info'
-          }, {
-            position: new google.maps.LatLng(-33.91790, 151.23463),
-            type: 'info'
-          }, {
-            position: new google.maps.LatLng(-33.91666, 151.23468),
-            type: 'info'
-          }, {
-            position: new google.maps.LatLng(-33.916988, 151.233640),
-            type: 'info'
-          }, {
-            position: new google.maps.LatLng(-33.91662347903106, 151.22879464019775),
-            type: 'parking'
-          }, {
-            position: new google.maps.LatLng(-33.916365282092855, 151.22937399734496),
-            type: 'parking'
-          }, {
-            position: new google.maps.LatLng(-33.91665018901448, 151.2282474695587),
-            type: 'parking'
-          }, {
-            position: new google.maps.LatLng(-33.919543720969806, 151.23112279762267),
-            type: 'parking'
-          }, {
-            position: new google.maps.LatLng(-33.91608037421864, 151.23288232673644),
-            type: 'parking'
-          }, {
-            position: new google.maps.LatLng(-33.91851096391805, 151.2344058214569),
-            type: 'parking'
-          }, {
-            position: new google.maps.LatLng(-33.91818154739766, 151.2346203981781),
-            type: 'parking'
-          }, {
-            position: new google.maps.LatLng(-33.91727341958453, 151.23348314155578),
-            type: 'library'
-          }
-        ];
-
-        // Create markers.
-        for (var i = 0; i < features.length; i++) {
-          var contentString = '<div id="content">'+
-              '<div id="siteNotice">'+
-              '</div>'+
-              '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
-              '<div id="bodyContent">'+
-              '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
-              'sandstone rock formation in the southern part of the '+
-              'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
-              'south west of the nearest large town, Alice Springs; 450&#160;km '+
-              '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
-              'features of the Uluru - Kata Tjuta National Park. Uluru is '+
-              'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
-              'Aboriginal people of the area. It has many springs, waterholes, '+
-              'rock caves and ancient paintings. Uluru is listed as a World '+
-              'Heritage Site.</p>'+
-              '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-              'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
-              '(last visited June 22, 2009).</p>'+
-              '</div>'+
-              '</div>';
-
-          var infowindow = new google.maps.InfoWindow({
-            content: contentString
-          });
-
-          var marker = new google.maps.Marker({
-            position: features[i].position,
-//            icon: icons[features[i].type].icon,
-            map: map,
-            title: "A company",
-            label: "A"
-          });
-          marker.addListener('click', function() {
-            infowindow.open(map, marker);
-          });
-        };
-            //Define OSM map type pointing at the OpenStreetMap tile server
-            map.mapTypes.set("OSM", new google.maps.ImageMapType({
-                getTileUrl: function(coord, zoom) {
-                    // "Wrap" x (longitude) at 180th meridian properly
-                    // NB: Don't touch coord.x: because coord param is by reference, and changing its x property breaks something in Google's lib
-                    var tilesPerGlobe = 1 << zoom;
-                    var x = coord.x % tilesPerGlobe;
-                    if (x < 0) {
-                        x = tilesPerGlobe+x;
-                    }
-                    // Wrap y (latitude) in a like manner if you want to enable vertical infinite scrolling
-
-                    return "https://tile.openstreetmap.org/" + zoom + "/" + x + "/" + coord.y + ".png";
-                },
-                tileSize: new google.maps.Size(256, 256),
-                name: "OpenStreetMap",
-                maxZoom: 18
-            }));
+                  return "https://tile.openstreetmap.org/" + zoom + "/" + x + "/" + coord.y + ".png";
+              },
+              tileSize: new google.maps.Size(256, 256),
+              name: "OpenStreetMap",
+              maxZoom: 18
+          }));
         </script>
     </body>
 </html>
