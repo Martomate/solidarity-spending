@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 app = Flask(__name__)
 
 @app.route('/getmsg/', methods=['GET'])
@@ -45,6 +45,10 @@ def post_something():
 @app.route('/')
 def index():
     return "<h1>Welcome to our server !!</h1>"
+
+@app.route("/map/")
+def map():
+    return send_from_directory('map', 'map_test.html')
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
