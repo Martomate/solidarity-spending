@@ -46,11 +46,15 @@ def post_something():
 def index():
     return "<h1>Welcome to our server !!</h1>"
 
-@app.route('/map/')
+@app.route('/js/<path:path>')
+def serveJavascript(path):
+    return send_from_directory('js', path)
+
+@app.route('/map')
 def map():
     return send_from_directory('map', 'map_test.html')
 
-@app.route('/fb_test/')
+@app.route('/fb_test')
 def fb_test():
     return send_from_directory('fb', 'fb_test.html')
 
