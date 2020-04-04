@@ -46,9 +46,13 @@ def post_something():
 def index():
     return "<h1>Welcome to our server !!</h1>"
 
-@app.route("/map/")
+@app.route('/map/')
 def map():
     return send_from_directory('map', 'map_test.html')
+
+@app.route('/fb_test/')
+def fb_test():
+    return send_from_directory('fb', 'fb_test.html')
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
