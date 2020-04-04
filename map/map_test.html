@@ -34,8 +34,7 @@
         
         <script type="text/javascript">
           function setMapCenter(map, pos) {
-            map.center.lat = pos.coords.latitude;
-            map.center.lng = pos.coords.longitude;
+            map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude))
           }
 
           //Google maps API initialisation
