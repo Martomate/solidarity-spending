@@ -50,6 +50,6 @@ function testAPI() {                      // Testing Graph API after login.  See
       'Thanks for logging in, ' + response.name + '!';
   });
   FB.api('/me/picture?width=320&height=320&redirect=false', function(response) {
-    document.getElementById('profile_pic').setAttribute('src', response.url);
+    document.getElementById('profile_pic').setAttribute('src', response.data.url);
   });
 }
