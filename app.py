@@ -44,7 +44,7 @@ def post_something():
 # A welcome message to test our server
 @app.route('/')
 def index():
-    return "<h1>Welcome to our server !!</h1>"
+    return '<h1>Welcome to our server !!</h1><p>There is a map <a href="/map">here</a> and a Facebook test <a href="/fb_test">here</a></p>'
 
 @app.route('/js/<path:path>')
 def serveJavascript(path):
