@@ -2,49 +2,10 @@
 from flask import Flask, request, jsonify, send_from_directory
 app = Flask(__name__)
 
-@app.route('/getmsg/', methods=['GET'])
-def respond():
-    # Retrieve the name from url parameter
-    name = request.args.get("name", None)
-
-    # For debugging
-    print(f"got name {name}")
-
-    response = {}
-
-    # Check if user sent a name at all
-    if not name:
-        response["ERROR"] = "no name found, please send a name."
-    # Check if the user entered a number not a name
-    elif str(name).isdigit():
-        response["ERROR"] = "name can't be numeric."
-    # Now the user entered a valid name
-    else:
-        response["MESSAGE"] = f"Welcome {name} to our awesome platform!!"
-
-    # Return the response in json format
-    return jsonify(response)
-
-@app.route('/post/', methods=['POST'])
-def post_something():
-    name = request.form.get('name')
-    print(name)
-    # You can add the test cases you made in the previous function, but in our case here you are just testing the POST functionality
-    if name:
-        return jsonify({
-            "Message": f"Welcome {name} to our awesome platform!!",
-            # Add this option to distinct the POST request
-            "METHOD" : "POST"
-        })
-    else:
-        return jsonify({
-            "ERROR": "no name found, please send a name."
-        })
-
 # A welcome message to test our server
 @app.route('/')
 def index():
-    return '<h1>Welcome to our server !!</h1><p>There is a map <a href="/map">here</a> and a Facebook test <a href="/fb_test">here</a></p>'
+    return '<h1>Welcome to Solidarity Spendning!</h1><p>This is a demo page, and not the final product.</p><p>There is a map <a href="/map">here</a> and a Facebook test <a href="/fb_test">here</a></p>'
 
 @app.route('/js/<path:path>')
 def serveJavascript(path):
@@ -57,6 +18,28 @@ def map():
 @app.route('/fb_test/')
 def fb_test():
     return send_from_directory('fb', 'fb_test.html')
+
+@app.route('/privacy/')
+def privacy_policy():
+    return '''
+    <html>
+      <head>
+        <title>Privacy Policy</title>
+      </head>
+      <body>
+        <h1>Privacy Policy for Solidarity Spending</h1>
+        <p>
+          We do not use your data at the moment, but in the future we would use it 
+          to connect you with your data so that you can see what you have spent. 
+          The data will not be sold to anyone at least.
+        </p>
+        <p>
+          In the future there could be a feature where you can share your spendings on Facebook, 
+          and in that case your data would be shared with your explicit permission.
+        </p>
+      </body>
+    </html>
+    '''
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
