@@ -2,11 +2,10 @@ function statusChangeCallback(response) {  // Called with the results from FB.ge
   console.log('statusChangeCallback');
   console.log(response);                   // The current login status of the person.
   if (response.status === 'connected') {   // Logged into your webpage and Facebook.
-    document.getElementById('login-button').innerHTML = '';
     testAPI();  
   } else {                                 // Not logged into your webpage or we are unable to tell.
     document.getElementById('status').innerHTML = '';
-    document.getElementById('login-button').innerHTML = '<div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>';
+    document.getElementById('profile_pic').removeAttribute('src');
   }
 }
 
@@ -37,14 +36,14 @@ window.fbAsyncInit = function() {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
-  js.src = "https://connect.facebook.net/en_US/sdk.js";
+  js.src = "https://connect.facebook.net/en_GB/sdk.js";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
 
 function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
   console.log('Welcome!  Fetching your information.... ');
-  FB.api('/me?fields', function(response) {
+  FB.api('/me', function(response) {
     console.log('Successful login for: ' + response.name);
     document.getElementById('status').innerHTML =
       'Thanks for logging in, ' + response.name + '!';

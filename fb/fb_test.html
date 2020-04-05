@@ -7,12 +7,22 @@
   </head>
   <body>
     <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0&appId=853289448519648&autoLogAppEvents=1"></script>
 
-    <div id="login-button"></div>
+    <div 
+      class="fb-login-button" 
+      data-width="" 
+      data-size="large" 
+      data-button-type="continue_with" 
+      data-layout="default" 
+      data-auto-logout-link="true" 
+      data-use-continue-as="false" 
+      data-onlogin="statusChangeCallback"
+    ></div>
 
     <div id="main-content">
-      <div id="status">
-      </div>
+      <div id="status"></div>
+      <br />
       <img id="profile_pic" />
     </div>
 
