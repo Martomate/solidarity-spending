@@ -13,16 +13,18 @@
     <h1>Facebook login demo</h1>
     <p>This page will fetch the name and profile picture from your Facebook account to show that Facebook login works.</p>
 
-    <div 
-      class="fb-login-button" 
-      data-width="" 
-      data-size="large" 
-      data-button-type="continue_with" 
-      data-layout="default" 
-      data-auto-logout-link="false" 
-      data-use-continue-as="false" 
-      data-onlogin="statusChangeCallback"
-    ></div>
+    <div id="login-div">
+      <div 
+        class="fb-login-button" 
+        data-width="" 
+        data-size="large" 
+        data-button-type="continue_with" 
+        data-layout="default" 
+        data-auto-logout-link="false" 
+        data-use-continue-as="false" 
+        data-onlogin="statusChangeCallback"
+      ></div>
+    </div>
 
     <div id="main-content">
       <div id="status"></div>

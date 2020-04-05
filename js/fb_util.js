@@ -2,8 +2,10 @@ function statusChangeCallback(response) {  // Called with the results from FB.ge
   console.log('statusChangeCallback');
   console.log(response);                   // The current login status of the person.
   if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+    document.getElementById('login-div').style.display = 'none';
     testAPI();  
   } else {                                 // Not logged into your webpage or we are unable to tell.
+    document.getElementById('login-div').style.display = 'block';
     document.getElementById('status').innerHTML = '';
     document.getElementById('profile_pic').removeAttribute('src');
   }
